@@ -1,1 +1,2 @@
-# zenido
+# ZeniDo: A ToDo app
+
