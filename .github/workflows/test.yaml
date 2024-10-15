@@ -1,0 +1,30 @@
+name: Test
+
+on:
+  pull_request:
+    branches:
+      - main
+    types: [opened, synchronize, reopened]
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  lint-format-and-static-code-checks:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install pre-commit and dependencies
+        run: |
+          poetry install
+      - name: Lint and static code quality checks
+        run: |
+          poetry run pre-commit run --all-files
